@@ -56,5 +56,23 @@ public class ProdutoDao {
 				.setParameter("nome", nome)
 				.getSingleResult();
 	}
+	
+	public Produto buscarProdutoComCategoria(Long id) {
+		String jpql = "SELECT p FROM Produto p "
+					+ "JOIN FETCH p.categoria " 
+					+ "WHERE p.id = :id";
+		return em.createQuery(jpql, Produto.class)
+				.setParameter("id", id)
+				.getSingleResult();
+	}
 
+	public List<Produto> buscarProdutosPorCategoria(Long idCategoria) {
+		String jpql = "SELECT p FROM Produto p "
+					+ "JOIN FETCH p.categoria "
+					+ " WHERE p.categoria.id = :id";
+		return em.createQuery(jpql, Produto.class)
+				.setParameter("id", idCategoria)
+				.getResultList();
+	}
+	
 }
